@@ -1,4 +1,5 @@
 import os
+from random import randint
 import time
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -19,9 +20,15 @@ def get_file_name_from_url(url):
     return os.path.basename(unquote(urlsplit(url).path))
 
 
-def fetch_comic(path_to_images):
-    """Загружает коммиксы."""
+def fetch_random_comic(path_to_images):
+    """Загружает случайный коммикс."""
+    # 'https://xkcd.com/1/info.0.json'
     response = requests.get('https://xkcd.com/info.0.json')
+    response.raise_for_status()
+
+    comic_number = randint(1, response.json()['num'])
+
+    response = requests.get(f'https://xkcd.com/{comic_number}/info.0.json')
     response.raise_for_status()
 
     comic_content = response.json()
@@ -51,7 +58,7 @@ if __name__ == '__main__':
 
     Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
-    fetch_comic(path_to_images)
+    fetch_random_comic(path_to_images)
 
     # while True:
     #     fetch_spacex_last_launch(path_to_images)

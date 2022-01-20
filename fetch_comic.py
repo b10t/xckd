@@ -1,8 +1,7 @@
 
 import os
-from random import randint
-import time
 from pathlib import Path
+from random import randint
 from urllib.parse import unquote, urlsplit
 
 import requests

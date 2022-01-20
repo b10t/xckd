@@ -25,9 +25,9 @@ def fetch_random_comic(path_to_images):
 
     Args:
         path_to_images (str): Путь к файлу, в какой необходимо
-                             сохранить изображение
+                             сохранить комикс
     Returns:
-        tuple: Путь к файлу, в какой сохранили изображение,
+        tuple: Путь к файлу, в какой сохранили комикс,
                 а так же комментарий к комиксу.
     """
     response = requests.get('https://xkcd.com/info.0.json')

@@ -1,66 +1,26 @@
 import os
-from random import randint
-import time
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
 
-import requests
 from dotenv import load_dotenv
 
-from download_and_save_images import download_image
-
-
-def get_file_name_from_url(url):
-    """Получает имя файла из url.
-    Args:
-        url (str): Ссылка на файл
-    Returns:
-        str: Расширение файла
-    """
-    return os.path.basename(unquote(urlsplit(url).path))
-
-
-def fetch_random_comic(path_to_images):
-    """Загружает случайный коммикс."""
-    # 'https://xkcd.com/1/info.0.json'
-    response = requests.get('https://xkcd.com/info.0.json')
-    response.raise_for_status()
-
-    comic_number = randint(1, response.json()['num'])
-
-    response = requests.get(f'https://xkcd.com/{comic_number}/info.0.json')
-    response.raise_for_status()
-
-    comic_content = response.json()
-    download_image(
-        comic_content['img'],
-        os.path.join(
-            path_to_images,
-            get_file_name_from_url(comic_content['img'])))
-
-    # if comic_content['links']['flickr']['original']:
-    #     for index, url in enumerate(
-    #             comic_content['links']['flickr']['original'], 1):
-
-    #         response = requests.get(url)
-    #         response.raise_for_status()
-
-    #         download_image(
-    #             url,
-    #             os.path.join(path_to_images, 'spacex%s.jpg' % index))
-    #     break
-
+from fetch_comic import fetch_random_comic
+from fetch_vk_api import upload_comic_to_wall_vk
 
 if __name__ == '__main__':
     load_dotenv()
-    path_to_images = os.getenv('PATH_TO_IMAGES', './Files/')
-    timeout = int(os.getenv('TIMEOUT', 86400))
 
+    vk_token_id = os.getenv('VK_TOKEN_ID', '')
+    vk_group_id = os.getenv('VK_GROUP_ID', '')
+
+    path_to_images = os.getenv('PATH_TO_IMAGES', './images/')
     Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
-    fetch_random_comic(path_to_images)
+    comic_file_name, commentary_comic = fetch_random_comic(path_to_images)
 
-    # while True:
-    #     fetch_spacex_last_launch(path_to_images)
+    upload_comic_to_wall_vk(
+        vk_token_id,
+        vk_group_id,
+        comic_file_name,
+        commentary_comic)
 
-    #     time.sleep(timeout)
+    os.remove(comic_file_name)

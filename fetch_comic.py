@@ -28,7 +28,8 @@ def fetch_random_comic(path_to_images):
         path_to_images (str): Путь к файлу, в какой необходимо
                              сохранить изображение
     Returns:
-        str: Путь к файлу, в какой сохранили изображение
+        tuple: Путь к файлу, в какой сохранили изображение,
+                а так же комментарий к комиксу.
     """
     response = requests.get('https://xkcd.com/info.0.json')
     response.raise_for_status()
@@ -48,7 +49,7 @@ def fetch_random_comic(path_to_images):
         comic_content['img'],
         comic_file_name)
 
-    return comic_file_name
+    return comic_file_name, comic_content['alt']
 
 
 if __name__ == '__main__':

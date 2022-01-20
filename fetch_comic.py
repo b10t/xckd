@@ -22,7 +22,7 @@ def get_extension_from_url(url):
 
 
 def fetch_random_comic(path_to_images):
-    """Загружает случайный коммикс.
+    """Загружает случайный комикс.
 
     Args:
         path_to_images (str): Путь к файлу, в какой необходимо

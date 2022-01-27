@@ -1,7 +1,9 @@
 import requests
 
 
-def upload_comic_to_wall_vk(vk_token_id, vk_group_id, comic_file_name, commentary_comic):
+def upload_comic_to_wall_vk(vk_token_id,
+                            vk_group_id, comic_file_name,
+                            commentary_comic):
     """Загружает комикс на стену во Вконтакте.
 
     Args:
@@ -12,22 +14,26 @@ def upload_comic_to_wall_vk(vk_token_id, vk_group_id, comic_file_name, commentar
     """
     upload_server_url = get_wall_upload_server(
         vk_token_id,
-        vk_group_id)
+        vk_group_id
+    )
 
     upload_content = fetch_upload_comic(
         upload_server_url,
-        comic_file_name)
+        comic_file_name
+    )
 
     wall_photo_content = save_wall_photo(
         vk_token_id,
         vk_group_id,
-        upload_content)
+        upload_content
+    )
 
     post_comic_to_group(
         vk_token_id,
         vk_group_id,
         commentary_comic,
-        wall_photo_content)
+        wall_photo_content
+    )
 
 
 def get_wall_upload_server(vk_token_id, vk_group_id):

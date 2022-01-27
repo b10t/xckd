@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from fetch_comic import fetch_random_comic
 from fetch_vk_api import upload_comic_to_wall_vk
 
+
 if __name__ == '__main__':
     load_dotenv()
 

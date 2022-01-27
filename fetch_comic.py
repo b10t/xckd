@@ -12,6 +12,7 @@ from download_and_save_images import download_image
 
 def get_extension_from_url(url):
     """Получает расширение файла из url.
+
     Args:
         url (str): Ссылка на файл
     Returns:
@@ -42,11 +43,13 @@ def fetch_random_comic(path_to_images):
 
     comic_file_name = os.path.join(
         path_to_images,
-        'comic' + get_extension_from_url(comic_content['img']))
+        f'comic{get_extension_from_url(comic_content["img"])}'
+    )
 
     download_image(
         comic_content['img'],
-        comic_file_name)
+        comic_file_name
+    )
 
     return comic_file_name, comic_content['alt']
 

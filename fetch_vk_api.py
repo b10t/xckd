@@ -19,10 +19,10 @@ def get_response_from_vk_api(response):
     Returns:
         str: Ответ с данными от VK API
     """
-    if response['error']:
+    if 'error' in response:
         raise(VkResponseError(response['error']['error_msg']))
 
-    return response['response']
+    return response
 
 
 def upload_comic_to_wall_vk(vk_token_id,
@@ -82,7 +82,7 @@ def get_wall_upload_server(vk_token_id, vk_group_id):
     response = requests.get(url, params=params)
     response.raise_for_status()
 
-    return get_response_from_vk_api(response.json())['upload_url']
+    return get_response_from_vk_api(response.json())['response']['upload_url']
 
 
 def fetch_upload_comic(upload_server_url, comic_file_name):
@@ -130,7 +130,7 @@ def save_wall_photo(vk_token_id, vk_group_id, upload_content):
     response = requests.get(url, params=params)
     response.raise_for_status()
 
-    return get_response_from_vk_api(response.json())[0]
+    return get_response_from_vk_api(response.json())['response'][0]
 
 
 def post_comic_to_group(vk_token_id, vk_group_id, message, attachments):

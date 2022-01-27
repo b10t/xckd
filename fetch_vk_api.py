@@ -1,8 +1,33 @@
 import requests
 
 
+class VkResponseError(TypeError):
+    """Класс-исключение для отображения ошибок от VK API.
+
+    Args:
+        TypeError (BaseException): Исключение
+    """
+    pass
+
+
+def get_response_from_vk_api(response):
+    """Обрабатывает ответ от VK API.
+
+    Args:
+        response (str): Ответ с данными от VK API
+
+    Returns:
+        str: Ответ с данными от VK API
+    """
+    if response['error']:
+        raise(VkResponseError(response['error']['error_msg']))
+
+    return response['response']
+
+
 def upload_comic_to_wall_vk(vk_token_id,
-                            vk_group_id, comic_file_name,
+                            vk_group_id,
+                            comic_file_name,
                             comic_commentary):
     """Загружает комикс на стену во Вконтакте.
 
@@ -10,7 +35,7 @@ def upload_comic_to_wall_vk(vk_token_id,
         vk_token_id (str): TOKEN VK API ID
         vk_group_id (str): ID group VK API
         comic_file_name (str): Путь к файлу комикса
-        commentary_comic (str): Комментарий к комиксу
+        comic_commentary (str): Комментарий к комиксу
     """
     upload_server_url = get_wall_upload_server(
         vk_token_id,
@@ -57,7 +82,7 @@ def get_wall_upload_server(vk_token_id, vk_group_id):
     response = requests.get(url, params=params)
     response.raise_for_status()
 
-    return response.json()['response']['upload_url']
+    return get_response_from_vk_api(response.json())['upload_url']
 
 
 def fetch_upload_comic(upload_server_url, comic_file_name):
@@ -77,7 +102,7 @@ def fetch_upload_comic(upload_server_url, comic_file_name):
         response = requests.post(upload_server_url, files=files)
         response.raise_for_status()
 
-        return response.json()
+        return get_response_from_vk_api(response.json())
 
 
 def save_wall_photo(vk_token_id, vk_group_id, upload_content):
@@ -105,7 +130,7 @@ def save_wall_photo(vk_token_id, vk_group_id, upload_content):
     response = requests.get(url, params=params)
     response.raise_for_status()
 
-    return response.json()['response'][0]
+    return get_response_from_vk_api(response.json())[0]
 
 
 def post_comic_to_group(vk_token_id, vk_group_id, message, attachments):

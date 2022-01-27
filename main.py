@@ -22,6 +22,7 @@ if __name__ == '__main__':
         vk_token_id,
         vk_group_id,
         comic_file_name,
-        commentary_comic)
+        commentary_comic
+    )
 
     os.remove(comic_file_name)

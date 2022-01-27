@@ -51,7 +51,8 @@ def get_wall_upload_server(vk_token_id, vk_group_id):
     params = {
         'access_token': vk_token_id,
         'group_id': vk_group_id,
-        'v': '5.131'}
+        'v': '5.131'
+    }
 
     response = requests.get(url, params=params)
     response.raise_for_status()
@@ -98,7 +99,8 @@ def save_wall_photo(vk_token_id, vk_group_id, upload_content):
         'server': upload_content['server'],
         'photo': upload_content['photo'],
         'hash': upload_content['hash'],
-        'v': '5.131'}
+        'v': '5.131'
+    }
 
     response = requests.get(url, params=params)
     response.raise_for_status()
@@ -123,7 +125,8 @@ def post_comic_to_group(vk_token_id, vk_group_id, message, attachments):
         'from_group': 0,
         'message': message,
         'attachments': f'photo{attachments["owner_id"]}_{attachments["id"]}',
-        'v': '5.131'}
+        'v': '5.131'
+    }
 
     response = requests.get(url, params=params)
     response.raise_for_status()

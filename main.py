@@ -18,11 +18,12 @@ if __name__ == '__main__':
 
     comic_file_name, commentary_comic = fetch_random_comic(path_to_images)
 
-    upload_comic_to_wall_vk(
-        vk_token_id,
-        vk_group_id,
-        comic_file_name,
-        commentary_comic
-    )
-
-    os.remove(comic_file_name)
+    try:
+        upload_comic_to_wall_vk(
+            vk_token_id,
+            vk_group_id,
+            comic_file_name,
+            commentary_comic
+        )
+    finally:
+        os.remove(comic_file_name)

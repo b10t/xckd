@@ -3,7 +3,7 @@ import requests
 
 def upload_comic_to_wall_vk(vk_token_id,
                             vk_group_id, comic_file_name,
-                            commentary_comic):
+                            comic_commentary):
     """Загружает комикс на стену во Вконтакте.
 
     Args:
@@ -31,7 +31,7 @@ def upload_comic_to_wall_vk(vk_token_id,
     post_comic_to_group(
         vk_token_id,
         vk_group_id,
-        commentary_comic,
+        comic_commentary,
         wall_photo_content
     )
 
